@@ -18,6 +18,10 @@ A full-stack Netflix clone built with Next.js, TypeScript, and Tailwind CSS.
 - Next.js 15
 - React 19
 - TypeScript
+- JavaScript
+- React
+- JSON
+- 
 - Tailwind CSS
 - Lucide React for icons
 
