@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String    @id @default(uuid())
+  email            String    @unique
+  password         String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  subscriptionPlan String?
+  isActive         Boolean   @default(true)
+  profiles         Profile[]
+}
+
+model Profile {
+  id            String         @id @default(uuid())
+  name          String
+  avatarUrl     String?
+  isKidsProfile Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  userId        String
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  watchHistory  WatchHistory[]
+  watchlist     ContentItem[]  @relation("ProfileWatchlist")
+}
+
+model Content {
+  id             String         @id @default(uuid())
+  title          String
+  description    String
+  thumbnailUrl   String
+  videoUrl       String
+  releaseYear    Int?
+  maturityRating String?
+  duration       String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  contentItems   ContentItem[]
+  watchHistory   WatchHistory[]
+  genres         Genre[]        @relation("ContentGenres")
+}
+
+model ContentItem {
+  id        String    @id @default(uuid())
+  contentId String
+  addedAt   DateTime  @default(now())
+  content   Content   @relation(fields: [contentId], references: [id])
+  profiles  Profile[] @relation("ProfileWatchlist")
+}
+
+model WatchHistory {
+  id              String   @id @default(uuid())
+  profileId       String
+  contentId       String
+  watchedAt       DateTime @default(now())
+  watchedDuration Int      @default(0)
+  completed       Boolean  @default(false)
+  content         Content  @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  profile         Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+}
+
+model Genre {
+  id       String    @id @default(uuid())
+  name     String    @unique
+  contents Content[] @relation("ContentGenres")
+}
