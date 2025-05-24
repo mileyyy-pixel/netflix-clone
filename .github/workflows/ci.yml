@@ -23,11 +23,20 @@ jobs:
     - name: Install dependencies
       run: cd frontend && npm ci
       
+    - name: Debug environment
+      run: |
+        cd frontend
+        npm list --depth=0
+        node -v
+        npm -v
+        ls -la
+        
     - name: Lint
-      run: cd frontend && npm run lint || true  # Continue even if linting fails
+      run: cd frontend && npm run lint || true
       
-    - name: Build
-      run: cd frontend && npm run build
+    - name: Build with detailed output
+      run: cd frontend && npm run build --verbose
       env:
         NEXT_PUBLIC_TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
-        NEXT_PUBLIC_TMDB_API_URL: https://api.themoviedb.org/3 
+        NEXT_PUBLIC_TMDB_API_URL: https://api.themoviedb.org/3
+        NODE_ENV: production
