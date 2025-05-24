@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Netflix Clone
 
 A full-stack Netflix clone built with Next.js, TypeScript, and Tailwind CSS.
@@ -88,3 +89,7 @@ This project is for educational purposes only. All trademarks are the property o
 
 - Netflix for the UI inspiration
 - TMDB for the movie data API
+=======
+# Netflix-clone
+UwU
+>>>>>>> 6d8feb4cd02cb3f8b8b17ff1932c118452f03c28
