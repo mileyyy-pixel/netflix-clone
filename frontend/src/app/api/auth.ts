@@ -1,54 +1,81 @@
 // app/api/auth.ts
 export async function login(email: string, password: string) {
   try {
-    const response = await fetch('http://localhost:3000/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
+    // For now, use mock authentication since backend is not deployed
+    // In production, you would connect to your deployed backend
     
-    if (!response.ok) {
-      throw new Error('Login failed');
+    // Mock validation - in real app, this would be done by the backend
+    if (!email || !password) {
+      throw new Error('Email and password are required');
     }
     
-    const data = await response.json();
-    localStorage.setItem('auth-token', data.accessToken);
-    return data; 
+    if (password.length < 6) {
+      throw new Error('Password must be at least 6 characters');
+    }
+    
+    // Mock successful login
+    const mockUser = {
+      id: 'mock-user-id',
+      email: email,
+      name: email.split('@')[0],
+      profiles: []
+    };
+    
+    const mockToken = `mock-jwt-token-${Date.now()}`;
+    
+    // Store in localStorage
+    localStorage.setItem('auth-token', mockToken);
+    localStorage.setItem('user-info', JSON.stringify(mockUser));
+    
+    return {
+      accessToken: mockToken,
+      user: mockUser
+    };
+    
   } catch (error) {
     console.error("Login error:", error);
-    
-    // For development, just mock a successful login
-    //const mockToken = 'mock-jwt-token';
-    //localStorage.setItem('auth-token', mockToken);
-    //return { token: mockToken, email };
     throw error;
   }
 }
 
 export async function signup(email: string, password: string, plan?: string) {
   try {
-    const response = await fetch('http://localhost:3000/auth/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, plan: plan || 'standard' }),
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Signup failed');
+    // Mock validation
+    if (!email || !password) {
+      throw new Error('Email and password are required');
     }
     
-    const data = await response.json();
-    localStorage.setItem('auth-token', data.accessToken);
-    return data;
+    if (password.length < 6) {
+      throw new Error('Password must be at least 6 characters');
+    }
+    
+    if (!email.includes('@')) {
+      throw new Error('Please enter a valid email address');
+    }
+    
+    // Mock successful signup
+    const mockUser = {
+      id: `mock-user-${Date.now()}`,
+      email: email,
+      name: email.split('@')[0],
+      subscriptionPlan: plan || 'standard',
+      profiles: []
+    };
+    
+    const mockToken = `mock-jwt-token-${Date.now()}`;
+    
+    // Store in localStorage
+    localStorage.setItem('auth-token', mockToken);
+    localStorage.setItem('user-info', JSON.stringify(mockUser));
+    
+    return {
+      accessToken: mockToken,
+      user: mockUser
+    };
+    
   } catch (error) {
     console.error("Signup error:", error);
     throw error;
-    
-    // For development, just mock a successful signup
-    //const mockToken = 'mock-jwt-token';
-    //localStorage.setItem('auth-token', mockToken);
-    //return { token: mockToken, email };
   }
 }
 
