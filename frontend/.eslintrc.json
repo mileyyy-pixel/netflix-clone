@@ -1,8 +1,15 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": ["next/core-web-vitals"],
   "rules": {
     "@next/next/no-img-element": "off",
     "react/no-unescaped-entities": "off",
-    "@typescript-eslint/no-unused-vars": "off"
+    "@typescript-eslint/no-unused-vars": "off",
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-img-element": "off"
+  },
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
   }
 }
