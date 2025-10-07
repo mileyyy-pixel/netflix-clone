@@ -6,7 +6,19 @@ import { ArrowLeft, Volume2, VolumeX, Maximize, Pause, Play } from 'lucide-react
 export default function WatchPage() {
   const params = useParams();
   const router = useRouter();
-  const [movie, setMovie] = useState<any>(null);
+  const [movie, setMovie] = useState<{
+    id: number;
+    title: string;
+    overview: string;
+    backdrop_path: string;
+    videos: {
+      results: Array<{
+        type: string;
+        site: string;
+        key: string;
+      }>;
+    };
+  } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
@@ -45,12 +57,12 @@ export default function WatchPage() {
     
     // Try to find a trailer first
     const trailer = movie.videos.results.find(
-      (video: any) => video.type === 'Trailer' && video.site === 'YouTube'
+      (video: { type: string; site: string; key: string }) => video.type === 'Trailer' && video.site === 'YouTube'
     );
     
     // If no trailer, just use the first YouTube video
     const anyVideo = movie.videos.results.find(
-      (video: any) => video.site === 'YouTube'
+      (video: { site: string; key: string }) => video.site === 'YouTube'
     );
     
     return trailer?.key || anyVideo?.key || null;
