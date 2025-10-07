@@ -43,7 +43,7 @@ export default function BrowsePage() {
     const continueWatchingRef = useRef<HTMLDivElement | null>(null) as React.RefObject<HTMLDivElement>;
     
     // Create an object to store refs for each genre
-    const genreRefs = useRef<{[key: number]: React.RefObject<HTMLDivElement>}>({});
+    const genreRefs = useRef<{[key: number]: React.RefObject<HTMLDivElement | null>}>({});
 
     // Initialize genre refs
     useEffect(() => {
