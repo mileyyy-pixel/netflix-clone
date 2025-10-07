@@ -109,7 +109,7 @@ export default function BrowsePage() {
     }, [router]);
 
     // Scroll functions for sliders
-    const scroll = (ref: React.RefObject<HTMLDivElement>, direction: 'left' | 'right') => {
+    const scroll = (ref: React.RefObject<HTMLDivElement | null>, direction: 'left' | 'right') => {
         if (ref.current) {
             const scrollAmount = ref.current.clientWidth * 0.8; // Scroll 80% of the visible width
             if (direction === 'left') {
@@ -163,7 +163,7 @@ export default function BrowsePage() {
     }: { 
         title: string, 
         movies: Movie[], 
-        sliderRef: React.RefObject<HTMLDivElement>,
+        sliderRef: React.RefObject<HTMLDivElement | null>,
         rowKey: string
     }) => (
         <div className="mb-12 relative">
