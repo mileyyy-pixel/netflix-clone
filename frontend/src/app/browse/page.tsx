@@ -43,7 +43,7 @@ export default function BrowsePage() {
     const continueWatchingRef = useRef<HTMLDivElement | null>(null) as React.RefObject<HTMLDivElement>;
     
     // Create an object to store refs for each genre
-    const genreRefs = useRef<{[key: number]: React.RefObject<HTMLDivElement | null>}>({});
+    const genreRefs = useRef<{[key: number]: React.RefObject<HTMLDivElement>}>({});
 
     // Initialize genre refs
     useEffect(() => {
@@ -388,7 +388,7 @@ export default function BrowsePage() {
                         key={genre.id}
                         title={genre.name} 
                         movies={genreMovies[genre.id] || []} 
-                        sliderRef={genreRefs.current[genre.id] || React.createRef()} 
+                        sliderRef={genreRefs.current[genre.id] || React.createRef<HTMLDivElement>()} 
                         rowKey={`genre-${genre.id}`} 
                     />
                 ))}
