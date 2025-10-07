@@ -51,21 +51,15 @@ const getMockProfiles = (): Profile[] => {
     return getDefaultProfiles();
   }
 
-  const storedProfiles = localStorage.getItem(MOCK_PROFILES_KEY);
+  // Clear localStorage to fix avatar path issues
+  localStorage.removeItem(MOCK_PROFILES_KEY);
+  localStorage.removeItem(MOCK_WATCHLIST_KEY);
+  localStorage.removeItem(MOCK_WATCH_HISTORY_KEY);
 
-  if (storedProfiles) {
-    try {
-      return JSON.parse(storedProfiles);
-    } catch (e) {
-      console.error("Error parsing stored profiles:", e);
-      return getDefaultProfiles();
-    }
-  } else {
-    // Initialize with default profiles
-    const defaultProfiles = getDefaultProfiles();
-    localStorage.setItem(MOCK_PROFILES_KEY, JSON.stringify(defaultProfiles));
-    return defaultProfiles;
-  }
+  // Initialize with default profiles
+  const defaultProfiles = getDefaultProfiles();
+  localStorage.setItem(MOCK_PROFILES_KEY, JSON.stringify(defaultProfiles));
+  return defaultProfiles;
 };
  
 
@@ -75,14 +69,14 @@ const getDefaultProfiles = (): Profile[] => {
     {
       id: 'profile-1',
       name: 'User 1',
-      avatarUrl: '/avatars/avatar1.png.png',
+      avatarUrl: '/avatars/avatar1.png',
       isKidsProfile: false,
       
     },
     {
       id: 'profile-2',
       name: 'Kids',
-      avatarUrl: '/avatars/avatar4.png.png',
+      avatarUrl: '/avatars/avatar4.png',
       isKidsProfile: true,
      
     }
@@ -212,99 +206,53 @@ const createMockProfile = (profileData: Partial<Profile>): Profile => {
 
 // Get all profiles for the current user
 export const getProfiles = async (): Promise<Profile[]> => {
-  try {
-    const profiles = await authFetch('/profiles');
-    // Update profiles in localStorage for consistency
-    localStorage.setItem('profiles', JSON.stringify(profiles));
-    return profiles;
-  } catch (error) {
-    // Fallback to mock profiles when API fails
-    console.log('Using mock profiles as fallback');
-    return getMockProfiles();
-  }
+  // Use mock profiles directly for now
+  return getMockProfiles();
 };
 
 // Get a single profile by ID
 export const getProfile = async (profileId: string): Promise<Profile> => {
-  try {
-    return await authFetch(`/profiles/${profileId}`);
-  } catch (error) {
-    // Fallback to mock profile
-    return getMockProfile(profileId);
-  }
+  // Use mock profile directly for now
+  return getMockProfile(profileId);
 };
 
 // Create a new profile
 export const createProfile = async (profileData: Partial<Profile>): Promise<Profile> => {
-  try {
-    const newProfile = await authFetch('/profiles', {
-      method: 'POST',
-      body: JSON.stringify(profileData)
-    });
-    
-    // Update the profiles list in localStorage to include this new profile
-    try {
-      const existingProfilesJSON = localStorage.getItem('profiles');
-      if (existingProfilesJSON) {
-        const existingProfiles = JSON.parse(existingProfilesJSON);
-        existingProfiles.push(newProfile);
-        localStorage.setItem('profiles', JSON.stringify(existingProfiles));
-      }
-    } catch (e) {
-      console.error("Failed to update profiles in localStorage:", e);
-    }
-    
-    return newProfile;
-  } catch (error) {
-    // Fallback to mock profile creation
-    return createMockProfile(profileData);
-  }
+  // Use mock profile creation directly for now
+  return createMockProfile(profileData);
 };
 
 // Update a profile
 export const updateProfile = async (profileId: string, profileData: Partial<Profile>): Promise<Profile> => {
-  try {
-    return await authFetch(`/profiles/${profileId}`, {
-      method: 'PUT',
-      body: JSON.stringify(profileData)
-    });
-  } catch (error) {
-    // Mock implementation for updating profile locally
-    const profiles = getMockProfiles();
-    const profileIndex = profiles.findIndex(p => p.id === profileId);
-    
-    if (profileIndex >= 0) {
-      profiles[profileIndex] = {
-        ...profiles[profileIndex],
-        ...profileData
-      };
-      localStorage.setItem(MOCK_PROFILES_KEY, JSON.stringify(profiles));
-      localStorage.setItem('profiles', JSON.stringify(profiles));
-      return profiles[profileIndex];
-    }
-    
-    throw new Error(`Profile with ID ${profileId} not found`);
+  // Mock implementation for updating profile locally
+  const profiles = getMockProfiles();
+  const profileIndex = profiles.findIndex(p => p.id === profileId);
+  
+  if (profileIndex >= 0) {
+    profiles[profileIndex] = {
+      ...profiles[profileIndex],
+      ...profileData
+    };
+    localStorage.setItem(MOCK_PROFILES_KEY, JSON.stringify(profiles));
+    localStorage.setItem('profiles', JSON.stringify(profiles));
+    return profiles[profileIndex];
   }
+  
+  throw new Error(`Profile with ID ${profileId} not found`);
 };
 
 // Delete a profile
 export const deleteProfile = async (profileId: string): Promise<void> => {
-  try {
-    return await authFetch(`/profiles/${profileId}`, {
-      method: 'DELETE'
-    });
-  } catch (error) {
-    // Mock implementation for deleting profile locally
-    const profiles = getMockProfiles();
-    const filteredProfiles = profiles.filter(p => p.id !== profileId);
-    
-    if (filteredProfiles.length === profiles.length) {
-      throw new Error(`Profile with ID ${profileId} not found`);
-    }
-    
-    localStorage.setItem(MOCK_PROFILES_KEY, JSON.stringify(filteredProfiles));
-    localStorage.setItem('profiles', JSON.stringify(filteredProfiles));
+  // Mock implementation for deleting profile locally
+  const profiles = getMockProfiles();
+  const filteredProfiles = profiles.filter(p => p.id !== profileId);
+  
+  if (filteredProfiles.length === profiles.length) {
+    throw new Error(`Profile with ID ${profileId} not found`);
   }
+  
+  localStorage.setItem(MOCK_PROFILES_KEY, JSON.stringify(filteredProfiles));
+  localStorage.setItem('profiles', JSON.stringify(filteredProfiles));
 };
 
 // Add content to watchlist

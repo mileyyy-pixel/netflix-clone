@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "src/app/api/**/*.ts": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "env": {
+    "NEXT_PUBLIC_TMDB_API_URL": "https://api.themoviedb.org/3"
+  }
+}

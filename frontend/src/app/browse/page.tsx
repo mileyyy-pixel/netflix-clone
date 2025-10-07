@@ -94,21 +94,9 @@ export default function BrowsePage() {
                 }
                 setGenreMovies(genreData);
 
-                try {
-                    const watchlistData = await getWatchlist(profile.id);
-                    setWatchlist(watchlistData);
-                } catch (error) {
-                    console.error("Failed to load watchlist", error);
-                    setWatchlist([]);
-                }
-
-                try {
-                    const continueWatchingData = await getContinueWatching(profile.id);
-                    setContinueWatching(continueWatchingData);
-                } catch (error) {
-                    console.error("Failed to load continue watching", error);
-                    setContinueWatching([]);
-                }
+                // Skip auth-protected calls for now - they require login
+                setWatchlist([]);
+                setContinueWatching([]);
                 setLoading(false);
             }
             catch(error) {

@@ -8,14 +8,14 @@ import Link from "next/link";
 import { Profile } from "../../../../types";
 
 const AVATAR_OPTIONS = [
-  "/avatars/avatar1.png.png",
-  "/avatars/avatar2.png.png",
+  "/avatars/avatar1.png",
+  "/avatars/avatar2.png",
   "/avatars/default.png",
-  "/avatars/avatar4.png.png",
-  "/avatars/avatar5.png.png",
-  "/avatars/avatar6.png.png",
-  "/avatars/avatar7.png.png",
-  "/avatars/avatar8.png.png",
+  "/avatars/avatar4.png",
+  "/avatars/avatar5.png",
+  "/avatars/avatar6.png",
+  "/avatars/avatar7.png",
+  "/avatars/avatar8.png",
 ];
 
 export default function EditProfilePage() {

@@ -27,13 +27,13 @@ export default function ManageProfilesPage() {
           {
             id: 'profile-1',
             name: 'User 1',
-            avatarUrl: '/avatars/avatar1.png.png',
+            avatarUrl: '/avatars/avatar1.png',
             isKidsProfile: false
           },
           {
             id: 'profile-2',
             name: 'Kids',
-            avatarUrl: '/avatars/avatar3.png.png',
+            avatarUrl: '/avatars/avatar3.png',
             isKidsProfile: true
           }
         ]);

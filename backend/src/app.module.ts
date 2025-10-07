@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { MoviesModule } from './movies/movies.module';
 import { ProfilesModule } from './profile/profiles.module';
 
-import { UsersService } from './users/users.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
